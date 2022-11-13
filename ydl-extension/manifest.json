@@ -1,10 +1,25 @@
 {
-    "manifest_version": 3,
-    "name": "YDL",
-    "description": "Youtube music downloader extension",
-    "version": "0.1",
-    "action": {
-      "default_popup": "index.html",
-      "default_icon": "icon.png"
+  "manifest_version": 3,
+
+  "name": "ydl",
+  "description": "heheh.",
+  "version": "1.0",
+
+  "action": {
+   "default_popup": "index.html",
+   "default_icon": "icon.png"
+  },
+  "permissions": [
+    "tabs",
+    "activeTab"
+  ],
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["content.js"]
     }
-} 
+  ],
+  "background": {
+      "service_worker": "background.js"
+  }
+}

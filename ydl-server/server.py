@@ -5,7 +5,7 @@ import os
 app = Flask("test")
 link = ""
 
-@app.route('/')
+@app.route('/', methods = ['POST', 'GET'])
 def processLink():
     # TODO: if youtube-dlp, ffprobe and ffmpeg is not in directory: download all three
     # update yt-dlp
