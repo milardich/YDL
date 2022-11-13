@@ -10,11 +10,12 @@ btn.addEventListener('click', () => {
     tabs = chrome.tabs.query(queryOptions, tabs => {
         //console.log(tabs[0].url);
         _videoUrl = tabs[0].url;
+        currentLinkText.innerHTML = tabs[0].title;
         _request = "http://127.0.0.1:8000/?link=" + _videoUrl;
         console.log(_request);
         fetch(_request).then(r => r.text()).then(result => {
             // Result now contains the response text, do what you want...
-            currentLinkText.innerHTML = tabs[0].title + " <br><br> should be downloaded idk, check Downloads folder on ur pc";
+            //currentLinkText.innerHTML = tabs[0].title + " <br><br> should be downloaded idk, check Downloads folder on ur pc";
         });
     });
     

@@ -1,6 +1,10 @@
 from flask import Flask, jsonify, request, send_file
 import subprocess
 import os
+import urllib.request
+import gdown
+import wget
+from mega import Mega
 
 app = Flask("test")
 link = ""
@@ -43,8 +47,42 @@ def getDownloadsDirectory():
         return str(location) + "\\"
     else:
         return os.path.join(os.path.expanduser('~'), 'downloads')
-        
+
+def downloadYtdlp():
+    print("Downloading yt-dlp...")
+    urllib.request.urlretrieve("https://github.com/yt-dlp/yt-dlp/releases/latest/download/yt-dlp.exe", "yt-dlp.exe")
+
+def downloadFfprobe():
+    print("Downloading FFPROBE...")
+    # TODO:
+    mega = Mega()
+    m = mega.login()
+    try:
+        m.download_url('https://mega.nz/file/HBYEjZjJ#2wn-LyNo-PEGjzFIxozudOKS7Azfcl7LyP5djCwsIvg')
+    except:
+        PermissionError
+
+def downloadFfmpeg():
+    print("Downloading FFMPEG...")
+    # TODO: 
+    mega = Mega()
+    m = mega.login()
+    try:
+        m.download_url('https://mega.nz/file/6ZpFGRCR#EsfBP2kEjjFYYcWUH8SGcV3itaKaTLz8Hmq5BRNZhvQ')
+    except:
+        PermissionError
+
+def checkFiles():
+    if not os.path.exists('./ffmpeg.exe'):
+        downloadFfmpeg()
+    if not os.path.exists('./yt-dlp.exe'):
+        downloadYtdlp()
+    if not os.path.exists('./ffprobe.exe'):
+        downloadFfprobe()
+
+
 if __name__ == '__main__':
+    checkFiles()
     print(getDownloadsDirectory())
 
     app.run(debug = True, port = 8000)
