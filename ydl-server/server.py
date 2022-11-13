@@ -2,11 +2,9 @@ from flask import Flask, jsonify, request, send_file
 import subprocess
 import os
 import urllib.request
-import gdown
-import wget
 from mega import Mega
 
-app = Flask("test")
+app = Flask("YDL")
 link = ""
 
 @app.route('/', methods = ['POST', 'GET'])
@@ -16,6 +14,9 @@ def processLink():
     # [X] update yt-dlp
     # [ ] add ability to change download directory
     # [ ] add ability to change download format (mp3, mp4, etc)
+    # [ ] add ability to detect and download whole yt playlists
+    # [ ] read ffmpeg etc download links from a file
+    # [ ] config - download location, download file format, port number and ip, etc
 
     link = request.args.get('link')
     
@@ -31,12 +32,15 @@ def processLink():
         "link:": link
     })
 
+
 def downloadSong(song):
     print("Downloading: " + song)
     subprocess.run(["yt-dlp", "-f", "ba", "-x", "--audio-format", "mp3", song, "-o", getDownloadsDirectory() + "%(title)s.%(ext)s"])
 
+
 def downloadPlaylist(playlist):
     print("Downloading playlist: " + playlist)
+
 
 def getDownloadsDirectory():
     if os.name == 'nt':
@@ -49,13 +53,14 @@ def getDownloadsDirectory():
     else:
         return os.path.join(os.path.expanduser('~'), 'downloads')
 
+
 def downloadYtdlp():
     print("Downloading yt-dlp...")
     urllib.request.urlretrieve("https://github.com/yt-dlp/yt-dlp/releases/latest/download/yt-dlp.exe", "yt-dlp.exe")
 
+
 def downloadFfprobe():
     print("Downloading FFPROBE...")
-    # TODO:
     mega = Mega()
     m = mega.login()
     try:
@@ -63,15 +68,16 @@ def downloadFfprobe():
     except:
         PermissionError
 
+
 def downloadFfmpeg():
     print("Downloading FFMPEG...")
-    # TODO: 
     mega = Mega()
     m = mega.login()
     try:
         m.download_url('https://mega.nz/file/6ZpFGRCR#EsfBP2kEjjFYYcWUH8SGcV3itaKaTLz8Hmq5BRNZhvQ')
     except:
         PermissionError
+
 
 def checkFiles():
     if not os.path.exists('./ffmpeg.exe'):
@@ -86,5 +92,4 @@ if __name__ == '__main__':
     checkFiles()
     subprocess.run(["yt-dlp", "-U"])
     print(getDownloadsDirectory())
-
     app.run(debug = True, port = 8000)
