@@ -11,10 +11,11 @@ link = ""
 
 @app.route('/', methods = ['POST', 'GET'])
 def processLink():
-    # TODO: if youtube-dlp, ffprobe and ffmpeg is not in directory: download all three
-    # update yt-dlp
-    # add ability to change download directory
-    # add ability to change download format (mp3, mp4, etc)
+    # TODO: 
+    # [X] if youtube-dlp, ffprobe and ffmpeg is not in directory: download all three
+    # [X] update yt-dlp
+    # [ ] add ability to change download directory
+    # [ ] add ability to change download format (mp3, mp4, etc)
 
     link = request.args.get('link')
     
@@ -83,6 +84,7 @@ def checkFiles():
 
 if __name__ == '__main__':
     checkFiles()
+    subprocess.run(["yt-dlp", "-U"])
     print(getDownloadsDirectory())
 
     app.run(debug = True, port = 8000)
