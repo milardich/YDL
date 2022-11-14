@@ -35,7 +35,7 @@ def processLink():
 
 def downloadSong(song):
     print("Downloading: " + song)
-    subprocess.run(["yt-dlp", "-f", "ba", "-x", "--audio-format", "mp3", song, "-o", getDownloadsDirectory() + "%(title)s.%(ext)s"])
+    subprocess.run(["yt-dlp", "-f", "ba", "-x", "--audio-format", "mp3", song, "-o", getDownloadsDirectory() + "%(title)s.%(ext)s", "--no-mtime"])
 
 
 def downloadPlaylist(playlist):

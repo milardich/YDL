@@ -1,10 +1,8 @@
 # YDL
 
-#### Server and extension for downloading music from youtube
+##### Youtube music downloader
 
 <br>
-
-<hr>
 
 ### Set up:
 1. [Download the latest build](bin/server.exe)
