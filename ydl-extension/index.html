@@ -17,13 +17,37 @@
         border-color: blue;
         border-width: 3px;
       }
+
+      #settingsDiv{
+        display: none;
+      }
+
+      #backButton{
+        display: none;
+      }
+
     </style>
     <title>YDL</title>
   </head>
   <body>
     <div class="container">
-      <button type="button" class="btn btn-primary" id="clickBtn">Download</button>
-      <div id="currentLink"> - </div> <br><br>
+
+      <div id="mainDiv">
+        <p>YDL</p>
+        <button type="button" class="btn btn-primary" id="clickBtn">Download</button>
+        <div id="currentLink"> - </div>
+      </div>
+      
+      
+      <div id="settingsDiv">
+        <p>YDL - Settings</p>
+        <div>Download location: test </div>
+        <div>Download format: mp3 </div>
+      </div>
+
+      <div><a href="#" id="settingsButton">Settings</a></div>
+      <div><a href="#" id="backButton">Back</a></div>
+
     </div>
   </body>
 </html>

@@ -19,3 +19,22 @@ btn.addEventListener('click', () => {
     });
     
 });
+
+var settingsButton = document.getElementById("settingsButton");
+var backButton = document.getElementById("backButton");
+var settingsDiv = document.getElementById("settingsDiv");
+var mainDiv = document.getElementById("mainDiv");
+
+settingsButton.addEventListener('click', () => {
+    settingsDiv.style.display = "block";
+    mainDiv.style.display = "none";
+    settingsButton.style.display = "none";
+    backButton.style.display = "block";
+});
+
+backButton.addEventListener('click', () => {
+    settingsDiv.style.display = "none";
+    mainDiv.style.display = "block";
+    settingsButton.style.display = "block";
+    backButton.style.display = "none";
+});
