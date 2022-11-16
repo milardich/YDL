@@ -7,6 +7,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"></script>
     <script async type="text/javascript" src="popup.js"></script>
     <!-- CSS only -->
+    
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
     <style>
       .container{
@@ -26,6 +27,64 @@
         display: none;
       }
 
+      .smallHeader{
+        color: gray;
+        font-size: 14px;
+      }
+
+      .settingTextValue{
+        color: black;
+        font-size: 16px;
+      }
+
+      .setting{
+        margin-bottom: 10px;
+      }
+
+      .panelHeader{
+        font-size: 20px;
+        color: blue;
+      }
+
+      .downloadButton {
+        padding-left: 5px;
+        padding-right: 5px;
+        padding-top: 0px;
+        padding-bottom: 0px;
+      }
+
+      .currentYoutubeVideo{
+        display: flex;
+      }
+
+      .buttonDiv{
+        margin-left: auto;
+        order: 2;
+      }
+
+      .videoImg{
+        height: 30px;
+        width: 50px;
+        border: 1px solid red;
+      }
+
+      .videoTitle{
+        padding: 3px;
+        font-size: 12px;
+      }
+
+      .navButton{
+        position: absolute;
+        bottom: 0px;
+        margin-bottom: 20px;
+        margin-left: 10px;
+      }
+
+      .downloadPlaylistDiv{
+        margin-top: 20px;
+        text-align: center;
+        /*display: none*/
+      }
     </style>
     <title>YDL</title>
   </head>
@@ -33,20 +92,40 @@
     <div class="container">
 
       <div id="mainDiv">
-        <p>YDL</p>
-        <button type="button" class="btn btn-primary" id="clickBtn">Download</button>
-        <div id="currentLink"> - </div>
+        <p class="panelHeader">YDL</p>
+        <div id="singleVideo">
+          <div id="currentYoutubeVideo" class="currentYoutubeVideo">
+            <div>
+              <img src="images/doctor.jpg" alt="" class="videoImg" id="videoImg">
+            </div>
+            <div class="videoTitle" id="currentLink">Video title</div>
+            <div class="buttonDiv">
+              <button type="button" class="btn btn-primary downloadButton" id="clickBtn"> ↓ </button>
+            </div>
+          </div>
+        </div>
+        
+        <div class="downloadPlaylistDiv">
+          <div class="smallHeader"> Playlist size: <b>32</b></div>
+          <button type="button" class="btn btn-secondary">Download playlist</button>
+        </div>
       </div>
       
       
       <div id="settingsDiv">
-        <p>YDL - Settings</p>
-        <div>Download location: test </div>
-        <div>Download format: mp3 </div>
+        <p class="panelHeader">YDL - Settings</p>
+        <div class="setting">
+          <div class="smallHeader">Download location</div>
+          <div class="settingTextValue">D:\Test\Downloads</div>  
+        </div>
+        <div class="setting">
+          <div class="smallHeader">Format</div>
+          <div class="settingTextValue">mp3</div>  
+        </div>
       </div>
 
-      <div><a href="#" id="settingsButton">Settings</a></div>
-      <div><a href="#" id="backButton">Back</a></div>
+      <div class="navButton"><a href="#" id="settingsButton">Settings</a></div>
+      <div class="navButton"><a href="#" id="backButton">Back</a></div>
 
     </div>
   </body>
