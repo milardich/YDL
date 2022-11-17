@@ -32,7 +32,11 @@ btn.addEventListener('click', () => {
         _request = "http://127.0.0.1:8000/?link=" + _videoUrl;
         console.log(_request);
         fetch(_request).then(r => r.text()).then(result => {
-            currentVideoTitle.innerHTML = tabs[0].title + " <br>[downloaded]";
+            //currentVideoTitle.innerHTML = tabs[0].title + " <br>[downloaded]";
+            //currentVideoTitle.style.color = "green";
+            //currentVideoTitle.style.fontWeight = "bold";
+            btn.style.backgroundColor = "green";
+            btn.innerHTML = "✓";
         });
     });
 });
@@ -51,14 +55,14 @@ backButton.addEventListener('click', () => {
     backButton.style.display = "none";
 });
 
-function setDataFromCurrentTab(){
+function setDataFromCurrentTab() {
     let queryOptions = { active: true, currentWindow: true };
     chrome.tabs.query(queryOptions, tabs => {
         tabUrl = tabs[0].url;
         videoId = getYoutubeVideoId(tabUrl);
         videoTitle = tabs[0].title;
 
-        if(tabUrl.includes("youtube") && tabUrl.includes("watch")){
+        if (tabUrl.includes("youtube") && tabUrl.includes("watch")) {
             //alert("this is a youtube video");
             videoImg.src = getVideoThumbnail(videoId);
             currentVideoTitle.innerHTML = videoTitle;
@@ -66,14 +70,14 @@ function setDataFromCurrentTab(){
     });
 }
 
-function getVideoThumbnail(videoId){
+function getVideoThumbnail(videoId) {
     //http://img.youtube.com/vi/[video-id]/[thumbnail-number].jpg
     return "http://img.youtube.com/vi/" + videoId + "/0.jpg";
 }
 
 // https://stackoverflow.com/questions/3452546/how-do-i-get-the-youtube-video-id-from-a-url
-function getYoutubeVideoId(url){
+function getYoutubeVideoId(url) {
     var regExp = /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#&?]*).*/;
     var match = url.match(regExp);
-    return (match&&match[7].length==11)? match[7] : false;
+    return (match && match[7].length == 11) ? match[7] : false;
 }

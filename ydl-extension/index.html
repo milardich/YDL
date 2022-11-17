@@ -1,134 +1,141 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <script async type="text/javascript" src="popup.js"></script>
-    <!-- CSS only -->
-    
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
-    <style>
-      .container{
-        width: 200px;
-        height: 300px;
-        padding: 10px;
-        border-style: solid;
-        border-color: blue;
-        border-width: 3px;
-      }
 
-      #settingsDiv{
-        display: none;
-      }
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <script async type="text/javascript" src="popup.js"></script>
+  <!-- CSS only -->
 
-      #backButton{
-        display: none;
-      }
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+  <style>
+    .container {
+      width: 200px;
+      height: 300px;
+      padding: 10px;
+      border-style: solid;
+      border-color: blue;
+      border-width: 3px;
+    }
 
-      .smallHeader{
-        color: gray;
-        font-size: 14px;
-      }
+    #settingsDiv {
+      display: none;
+    }
 
-      .settingTextValue{
-        color: black;
-        font-size: 16px;
-      }
+    #backButton {
+      display: none;
+    }
 
-      .setting{
-        margin-bottom: 10px;
-      }
+    .smallHeader {
+      color: gray;
+      font-size: 14px;
+    }
 
-      .panelHeader{
-        font-size: 20px;
-        color: blue;
-      }
+    .settingTextValue {
+      color: black;
+      font-size: 16px;
+    }
 
-      .downloadButton {
-        padding-left: 5px;
-        padding-right: 5px;
-        padding-top: 0px;
-        padding-bottom: 0px;
-      }
+    .setting {
+      margin-bottom: 10px;
+    }
 
-      .currentYoutubeVideo{
-        display: flex;
-      }
+    .panelHeader {
+      font-size: 20px;
+      color: blue;
+    }
 
-      .buttonDiv{
-        margin-left: auto;
-        order: 2;
-      }
+    .downloadButton {
+      padding-left: 10px;
+      padding-right: 10px;
+      padding-top: 0px;
+      padding-bottom: 0px;
+    }
 
-      .videoImg{
-        height: 30px;
-        width: 50px;
-        border: 1px solid red;
-      }
+    .currentYoutubeVideo {
+      display: flex;
+    }
 
-      .videoTitle{
-        padding: 3px;
-        font-size: 12px;
-        text-overflow: ellipsis;
-        overflow: hidden; 
-        white-space: nowrap;
-      }
+    .buttonDiv {
+      margin-left: auto;
+      order: 2;
+    }
 
-      .navButton{
-        position: absolute;
-        bottom: 0px;
-        margin-bottom: 20px;
-        margin-left: 10px;
-      }
+    .videoImg {
+      height: 30px;
+      width: 50px;
+      border: 1px solid red;
+    }
 
-      .downloadPlaylistDiv{
-        margin-top: 20px;
-        text-align: center;
-        /*display: none*/
-      }
-    </style>
-    <title>YDL</title>
-  </head>
-  <body>
-    <div class="container">
+    .videoTitle {
+      padding: 3px;
+      font-size: 12px;
+      text-overflow: ellipsis;
+      overflow: hidden;
+      white-space: nowrap;
+    }
 
-      <div id="mainDiv">
-        <p class="panelHeader">YDL</p>
-        <div id="singleVideo">
-          <div id="currentYoutubeVideo" class="currentYoutubeVideo">
-            <div>
-              <img src="images/doctor.jpg" alt="" class="videoImg" id="videoImg">
-            </div>
-            <div class="videoTitle" id="currentLink">Video title</div>
-            <div class="buttonDiv">
-              <button type="button" class="btn btn-primary downloadButton" id="clickBtn"> ↓ </button>
-            </div>
+    .navButton {
+      position: absolute;
+      bottom: 0px;
+      margin-bottom: 20px;
+      margin-left: 10px;
+    }
+
+    .downloadPlaylistDiv {
+      margin-top: 20px;
+      text-align: center;
+      /*display: none*/
+    }
+  </style>
+  <title>YDL</title>
+</head>
+
+<body>
+  <div class="container">
+
+    <div id="mainDiv">
+      <p class="panelHeader">YDL</p>
+      <div id="singleVideo">
+        <div id="currentYoutubeVideo" class="currentYoutubeVideo">
+          <div>
+            <img src="images/doctor.jpg" alt="" class="videoImg" id="videoImg">
+          </div>
+          <div class="videoTitle" id="currentLink">Video title</div>
+          <div class="buttonDiv">
+            <button type="button" class="btn btn-primary downloadButton" id="clickBtn"> ↓ </button>
           </div>
         </div>
-        
-        <div class="downloadPlaylistDiv">
-          <div class="smallHeader"> Playlist size: <b>32</b></div>
-          <button type="button" class="btn btn-secondary">Download playlist</button>
-        </div>
-      </div>
-      
-      
-      <div id="settingsDiv">
-        <p class="panelHeader">YDL - Settings</p>
-        <div class="setting">
-          <div class="smallHeader">Download location</div>
-          <div class="settingTextValue">D:\Test\Downloads</div>  
-        </div>
-        <div class="setting">
-          <div class="smallHeader">Format</div>
-          <div class="settingTextValue">mp3</div>  
-        </div>
       </div>
 
-      <div class="navButton"><a href="#" id="settingsButton">Settings</a></div>
-      <div class="navButton"><a href="#" id="backButton">Back</a></div>
-
+      <div class="downloadPlaylistDiv">
+        <div class="smallHeader"> Playlist size: <b>32</b></div>
+        <button type="button" class="btn btn-secondary">Download playlist</button>
+      </div>
     </div>
-  </body>
+
+    <div id="settingsDiv">
+      <p class="panelHeader">YDL - Settings</p>
+      <div class="setting">
+        <div class="smallHeader">Download location</div>
+        <div class="settingTextValue">D:\Test\Downloads</div>
+      </div>
+      <div class="setting">
+        <div class="smallHeader">Format</div>
+        <div class="settingTextValue">mp3</div>
+      </div>
+      <div class="setting">
+        <div class="smallHeader">Auto download</div>
+        <div class="settingTextValue">Off</div>
+      </div>
+    </div>
+
+    <div class="navButton"><a href="#" id="settingsButton">Settings</a></div>
+    <div class="navButton"><a href="#" id="backButton">Back</a></div>
+
+  </div>
+</body>
+
 </html>
