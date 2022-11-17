@@ -6,7 +6,18 @@ const settingsDiv = document.getElementById("settingsDiv");
 const mainDiv = document.getElementById("mainDiv");
 const videoImg = document.getElementById("videoImg");
 
-initializeTabData();
+setDataFromCurrentTab();
+
+/*
+    TODO: 
+    [ ] Hide download button if not on youtube
+    [ ] If playlist: show download playlist button
+    [ ] Settings
+    [ ] If song from current tab downloaded: show checkmark
+    [ ] in setDataFromCurrentTab() check if current song already downloaded (isDownloaded() -> sends request to server and returns value)
+    [ ] request contains: link, isPlaylist
+    [ ] inject download button on youtube video
+ */
 
 btn.addEventListener('click', () => {
     let _videoUrl = "";
@@ -40,7 +51,7 @@ backButton.addEventListener('click', () => {
     backButton.style.display = "none";
 });
 
-function initializeTabData(){
+function setDataFromCurrentTab(){
     let queryOptions = { active: true, currentWindow: true };
     chrome.tabs.query(queryOptions, tabs => {
         tabUrl = tabs[0].url;
