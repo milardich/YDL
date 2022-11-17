@@ -1,5 +1,5 @@
 const btn = document.getElementById('clickBtn');
-const currentLinkText = document.getElementById('currentLink');
+const currentVideoTitle = document.getElementById('currentLink');
 const settingsButton = document.getElementById("settingsButton");
 const backButton = document.getElementById("backButton");
 const settingsDiv = document.getElementById("settingsDiv");
@@ -17,11 +17,11 @@ btn.addEventListener('click', () => {
     tabs = chrome.tabs.query(queryOptions, tabs => {
         //console.log(tabs[0].url);
         _videoUrl = tabs[0].url;
-        currentLinkText.innerHTML = tabs[0].title;
+        currentVideoTitle.innerHTML = tabs[0].title;
         _request = "http://127.0.0.1:8000/?link=" + _videoUrl;
         console.log(_request);
         fetch(_request).then(r => r.text()).then(result => {
-            currentLinkText.innerHTML = tabs[0].title + " <br>[downloaded]";
+            currentVideoTitle.innerHTML = tabs[0].title + " <br>[downloaded]";
         });
     });
 });
@@ -45,9 +45,12 @@ function initializeTabData(){
     chrome.tabs.query(queryOptions, tabs => {
         tabUrl = tabs[0].url;
         videoId = getYoutubeVideoId(tabUrl);
+        videoTitle = tabs[0].title;
+
         if(tabUrl.includes("youtube") && tabUrl.includes("watch")){
             //alert("this is a youtube video");
             videoImg.src = getVideoThumbnail(videoId);
+            currentVideoTitle.innerHTML = videoTitle;
         }
     });
 }
