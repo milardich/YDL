@@ -1,5 +1,12 @@
 const btn = document.getElementById('clickBtn');
 const currentLinkText = document.getElementById('currentLink');
+const settingsButton = document.getElementById("settingsButton");
+const backButton = document.getElementById("backButton");
+const settingsDiv = document.getElementById("settingsDiv");
+const mainDiv = document.getElementById("mainDiv");
+const videoImg = document.getElementById("videoImg");
+
+initializeTabData();
 
 btn.addEventListener('click', () => {
     let _videoUrl = "";
@@ -17,13 +24,7 @@ btn.addEventListener('click', () => {
             currentLinkText.innerHTML = tabs[0].title + " <br>[downloaded]";
         });
     });
-    
 });
-
-var settingsButton = document.getElementById("settingsButton");
-var backButton = document.getElementById("backButton");
-var settingsDiv = document.getElementById("settingsDiv");
-var mainDiv = document.getElementById("mainDiv");
 
 settingsButton.addEventListener('click', () => {
     settingsDiv.style.display = "block";
@@ -38,3 +39,27 @@ backButton.addEventListener('click', () => {
     settingsButton.style.display = "block";
     backButton.style.display = "none";
 });
+
+function initializeTabData(){
+    let queryOptions = { active: true, currentWindow: true };
+    chrome.tabs.query(queryOptions, tabs => {
+        tabUrl = tabs[0].url;
+        videoId = getYoutubeVideoId(tabUrl);
+        if(tabUrl.includes("youtube") && tabUrl.includes("watch")){
+            //alert("this is a youtube video");
+            videoImg.src = getVideoThumbnail(videoId);
+        }
+    });
+}
+
+function getVideoThumbnail(videoId){
+    //http://img.youtube.com/vi/[video-id]/[thumbnail-number].jpg
+    return "http://img.youtube.com/vi/" + videoId + "/0.jpg";
+}
+
+// https://stackoverflow.com/questions/3452546/how-do-i-get-the-youtube-video-id-from-a-url
+function getYoutubeVideoId(url){
+    var regExp = /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#&?]*).*/;
+    var match = url.match(regExp);
+    return (match&&match[7].length==11)? match[7] : false;
+}
