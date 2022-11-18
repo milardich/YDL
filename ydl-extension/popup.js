@@ -28,13 +28,11 @@ btn.addEventListener('click', () => {
     tabs = chrome.tabs.query(queryOptions, tabs => {
         //console.log(tabs[0].url);
         _videoUrl = tabs[0].url;
-        currentVideoTitle.innerHTML = tabs[0].title;
-        _request = "http://127.0.0.1:8000/?link=" + _videoUrl;
+        _videoTitle = tabs[0].title.slice(0, -10);
+        currentVideoTitle.innerHTML = _videoTitle;
+        _request = "http://127.0.0.1:8000/?link=" + _videoUrl + "&videoTitle=" + _videoTitle;
         console.log(_request);
         fetch(_request).then(r => r.text()).then(result => {
-            //currentVideoTitle.innerHTML = tabs[0].title + " <br>[downloaded]";
-            //currentVideoTitle.style.color = "green";
-            //currentVideoTitle.style.fontWeight = "bold";
             btn.style.backgroundColor = "green";
             btn.innerHTML = "✓";
         });
@@ -67,6 +65,33 @@ function setDataFromCurrentTab() {
             videoImg.src = getVideoThumbnail(videoId);
             currentVideoTitle.innerHTML = videoTitle;
         }
+    });
+    currentVideoDownloadedCheck();
+}
+
+async function currentVideoDownloadedCheck() {
+    var currentTabUrl;
+    let queryOptions = { active: true, currentWindow: true };
+    chrome.tabs.query(queryOptions, tabs => {
+        currentTabUrl = tabs[0].url;
+    });
+    const response = await fetch('http://127.0.0.1:8000/downloaded');
+    const videoUrls = await response.json();
+
+    for (i = 0; i < videoUrls["downloadedVideos"].length; i++) {
+        if (videoUrls["downloadedVideos"][i].videoUrl == currentTabUrl) {
+            btn.style.backgroundColor = "green";
+            btn.innerHTML = "✓";
+        }
+    }
+    //console.log(currentTabUrl);
+    //console.log(videoUrls);
+}
+
+function getCurrentTab() {
+    let queryOptions = { active: true, currentWindow: true };
+    chrome.tabs.query(queryOptions, tabs => {
+        return tabs[0];
     });
 }
 

@@ -6,6 +6,16 @@ import json
 #from mega import Mega
 
 
+# TODO:
+# [X] if youtube-dlp, ffprobe and ffmpeg is not in directory: download all three
+# [X] update yt-dlp
+# [X] add ability to change download directory
+# [X] add ability to change download format (mp3, mp4, etc)
+# [ ] add ability to detect and download whole yt playlists
+# [ ] read ffmpeg etc download links from a file
+# [X] config - download location, download file format, port number and ip, etc
+
+
 app = Flask("YDL")
 link = ""
 DownloadLocation = ""
@@ -14,20 +24,14 @@ AutoDownload = "false"
 HostAddress = "localhost"
 PortNumber = "8000"
 DownloadedFilesJsonData = ""
+VideoTitle = ""
 
 
 @app.route('/', methods=['POST', 'GET'])
 def processLink():
-    # TODO:
-    # [X] if youtube-dlp, ffprobe and ffmpeg is not in directory: download all three
-    # [X] update yt-dlp
-    # [X] add ability to change download directory
-    # [X] add ability to change download format (mp3, mp4, etc)
-    # [ ] add ability to detect and download whole yt playlists
-    # [ ] read ffmpeg etc download links from a file
-    # [X] config - download location, download file format, port number and ip, etc
-
+    global VideoTitle
     link = request.args.get('link')
+    VideoTitle = request.args.get('videoTitle')
     if link == "" or not link.__contains__("youtube.com"):
         return "You must enter a youtube link!"
     if link.__contains__('list'):
@@ -35,7 +39,8 @@ def processLink():
     else:
         downloadSong(link)
     return jsonify({
-        "link:": link
+        "videoUrl:": link,
+        "title": VideoTitle
     })
 
 
@@ -86,17 +91,22 @@ def changeAutoDownload():
     })
 
 
-@app.route('/downloads', methods=['GET', 'POST'])
-def showDownloadedFiles():
-    pass
+@app.route('/downloaded', methods=['GET', 'POST'])
+def getDownloadedFiles():
+    f = open("downloaded_files.json", "r")
+    DownloadedFilesJsonData = json.load(f)
+    f.close()
+    return jsonify(DownloadedFilesJsonData)
 
 
 def downloadSong(song):
+    global VideoTitle
     print("Downloading: " + song)
     subprocess.run(["yt-dlp", "-f", "ba", "-x", "--audio-format", "mp3", song,
                    "-o", DownloadLocation + "%(title)s.%(ext)s", "--no-mtime"])
     songDict = {
-        "videoUrl": song
+        "videoUrl": song,
+        "videoTitle": VideoTitle
     }
     saveToDownloadedJson(songDict)
 
