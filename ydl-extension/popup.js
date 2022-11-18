@@ -31,7 +31,7 @@ btn.addEventListener('click', () => {
         _videoUrl = tabs[0].url;
         _videoTitle = tabs[0].title.slice(0, -10);
         currentVideoTitle.innerHTML = _videoTitle;
-        _request = "http://127.0.0.1:8000/?link=" + _videoUrl + "&videoTitle=" + _videoTitle;
+        _request = "http://127.0.0.1:8000/?link=" + _videoUrl + "&videoTitle=" + _videoTitle + "&videoId=" + getYoutubeVideoId(_videoUrl);
         console.log(_request);
         btn.innerHTML = "↓";
         btn.style.backgroundColor = "gray";
@@ -87,7 +87,7 @@ async function currentVideoDownloadedCheck() {
     const videoUrls = await response.json();
 
     for (i = 0; i < videoUrls["downloadedVideos"].length; i++) {
-        if (videoUrls["downloadedVideos"][i].videoUrl == currentTabUrl || videoUrls["downloadedVideos"][i].videoTitle == currentTabTitle) {
+        if (videoUrls["downloadedVideos"][i].videoUrl == currentTabUrl || videoUrls["downloadedVideos"][i].videoTitle == currentTabTitle || videoUrls["downloadedVideos"][i].videoId == getYoutubeVideoId(currentTabUrl)) {
             btn.style.backgroundColor = "green";
             btn.innerHTML = "✓";
         }

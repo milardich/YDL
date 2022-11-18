@@ -26,13 +26,15 @@ HostAddress = "localhost"
 PortNumber = "8000"
 DownloadedFilesJsonData = ""
 VideoTitle = ""
+VideoId = ""
 
 
 @app.route('/', methods=['POST', 'GET'])
 def processLink():
-    global VideoTitle
+    global VideoTitle, VideoId
     link = request.args.get('link')
     VideoTitle = request.args.get('videoTitle')
+    VideoId = request.args.get('videoId')
     if link == "" or not link.__contains__("youtube.com"):
         return "You must enter a youtube link!"
     if link.__contains__('list'):
@@ -41,7 +43,8 @@ def processLink():
         downloadSong(link)
     return jsonify({
         "videoUrl:": link,
-        "title": VideoTitle
+        "title": VideoTitle,
+        "videoId": VideoId
     })
 
 
@@ -101,13 +104,14 @@ def getDownloadedFiles():
 
 
 def downloadSong(song):
-    global VideoTitle
+    global VideoTitle, VideoId
     print("Downloading: " + song)
     subprocess.run(["yt-dlp", "-f", "ba", "-x", "--audio-format", "mp3", song,
                    "-o", DownloadLocation + "%(title)s.%(ext)s", "--no-mtime"])
     songDict = {
         "videoUrl": song,
-        "videoTitle": VideoTitle
+        "videoTitle": VideoTitle,
+        "videoId": VideoId
     }
     saveToDownloadedJson(songDict)
 
