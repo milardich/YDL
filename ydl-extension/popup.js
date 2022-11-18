@@ -6,6 +6,8 @@ const settingsDiv = document.getElementById("settingsDiv");
 const mainDiv = document.getElementById("mainDiv");
 const videoImg = document.getElementById("videoImg");
 const numberOfDownloadsDiv = document.getElementById("numberOfDownloads");
+const currentVideoDiv = document.getElementById("currentVideoContainer");
+const noYoutubeVideoActiveDiv = document.getElementById("noYoutubeVideoActiveContainer");
 
 setDataFromCurrentTab();
 
@@ -59,6 +61,12 @@ backButton.addEventListener('click', () => {
 });
 
 function setDataFromCurrentTab() {
+    youtubeVideoActiveCheck();
+    currentVideoDownloadedCheck();
+    setNumberOfDownloads();
+}
+
+function youtubeVideoActiveCheck() {
     let queryOptions = { active: true, currentWindow: true };
     chrome.tabs.query(queryOptions, tabs => {
         tabUrl = tabs[0].url;
@@ -70,9 +78,11 @@ function setDataFromCurrentTab() {
             videoImg.src = getVideoThumbnail(videoId);
             currentVideoTitle.innerHTML = videoTitle;
         }
+        else {
+            currentVideoDiv.style.display = "none";
+            noYoutubeVideoActiveDiv.style.display = "block";
+        }
     });
-    currentVideoDownloadedCheck();
-    setNumberOfDownloads();
 }
 
 async function currentVideoDownloadedCheck() {

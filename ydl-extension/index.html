@@ -89,6 +89,18 @@
       text-align: center;
       /*display: none*/
     }
+
+    .error1 {
+      color: red;
+      font-size: 14px;
+    }
+
+    #noYoutubeVideoActiveContainer {
+      text-align: center;
+      border: 1px solid red;
+      padding: 5px;
+      display: none;
+    }
   </style>
   <title>YDL</title>
 </head>
@@ -99,7 +111,7 @@
     <div id="mainDiv">
       <p class="panelHeader">YDL | <span class="smallHeader">Downloads: <span id="numberOfDownloads">0</span></span>
       </p>
-      <div id="singleVideo">
+      <div id="currentVideoContainer">
         <div id="currentYoutubeVideo" class="currentYoutubeVideo">
           <div>
             <img src="images/doctor.jpg" alt="" class="videoImg" id="videoImg">
@@ -109,6 +121,9 @@
             <button type="button" class="btn btn-primary downloadButton" id="clickBtn"> ↓ </button>
           </div>
         </div>
+      </div>
+      <div id="noYoutubeVideoActiveContainer">
+        <span class="error1">No YouTube video active</span>
       </div>
 
       <div class="downloadPlaylistDiv">
