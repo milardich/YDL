@@ -33,8 +33,8 @@ btn.addEventListener('click', () => {
         currentVideoTitle.innerHTML = _videoTitle;
         _request = "http://127.0.0.1:8000/?link=" + _videoUrl + "&videoTitle=" + _videoTitle;
         console.log(_request);
+        btn.innerHTML = "↓";
         btn.style.backgroundColor = "gray";
-        //btn.style.color = "green";
         btn.disabled = true;
         fetch(_request).then(r => r.text()).then(result => {
             btn.style.backgroundColor = "green";

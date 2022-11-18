@@ -185,15 +185,23 @@ def saveAutoDownload():
 
 def saveToDownloadedJson(youtubeVideoDictionary):
     global DownloadedFilesJsonData
+    alreadyDownloaded = False
     f = open("downloaded_files.json", "r")
     DownloadedFilesJsonData = json.load(f)
     f.close()
-    DownloadedFilesJsonData["downloadedVideos"].append(youtubeVideoDictionary)
-    json_object = json.dumps(DownloadedFilesJsonData, indent=4)
-    f = open("downloaded_files.json", "w")
-    f.write(json_object)
-    f.close()
-    print(str(json_object))
+
+    for object in DownloadedFilesJsonData["downloadedVideos"]:
+        if object == youtubeVideoDictionary:
+            alreadyDownloaded = True
+
+    if not alreadyDownloaded:
+        DownloadedFilesJsonData["downloadedVideos"].append(
+            youtubeVideoDictionary)
+        json_object = json.dumps(DownloadedFilesJsonData, indent=4)
+        f = open("downloaded_files.json", "w")
+        f.write(json_object)
+        f.close()
+        print(str(json_object))
 
 
 def downloadYtdlp():
