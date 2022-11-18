@@ -12,6 +12,7 @@ import json
 # [X] add ability to change download directory
 # [X] add ability to change download format (mp3, mp4, etc)
 # [ ] add ability to detect and download whole yt playlists
+# [ ] auto downloading
 # [ ] read ffmpeg etc download links from a file
 # [X] config - download location, download file format, port number and ip, etc
 
