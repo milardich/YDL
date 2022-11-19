@@ -8,6 +8,7 @@ const videoImg = document.getElementById("videoImg");
 const numberOfDownloadsDiv = document.getElementById("numberOfDownloads");
 const currentVideoDiv = document.getElementById("currentVideoContainer");
 const noYoutubeVideoActiveDiv = document.getElementById("noYoutubeVideoActiveContainer");
+const downloadPlaylistDiv = document.getElementById("downloadPlaylistDiv");
 
 setDataFromCurrentTab();
 
@@ -62,8 +63,22 @@ backButton.addEventListener('click', () => {
 
 function setDataFromCurrentTab() {
     youtubeVideoActiveCheck();
+    playlistActiveCheck();
     currentVideoDownloadedCheck();
     setNumberOfDownloads();
+}
+
+function playlistActiveCheck() {
+    let queryOptions = { active: true, currentWindow: true };
+    chrome.tabs.query(queryOptions, tabs => {
+        tabUrl = tabs[0].url;
+        if (tabUrl.includes("youtube") && tabUrl.includes("list")) {
+            downloadPlaylistDiv.style.display = "block";
+        }
+        else {
+            downloadPlaylistDiv.style.display = "none";
+        }
+    });
 }
 
 function youtubeVideoActiveCheck() {
@@ -71,8 +86,7 @@ function youtubeVideoActiveCheck() {
     chrome.tabs.query(queryOptions, tabs => {
         tabUrl = tabs[0].url;
         videoId = getYoutubeVideoId(tabUrl);
-        videoTitle = tabs[0].title;
-
+        videoTitle = tabs[0].title.slice(0, -10);
         if (tabUrl.includes("youtube") && tabUrl.includes("watch")) {
             //alert("this is a youtube video");
             videoImg.src = getVideoThumbnail(videoId);
@@ -97,7 +111,9 @@ async function currentVideoDownloadedCheck() {
     const videoUrls = await response.json();
 
     for (i = 0; i < videoUrls["downloadedVideos"].length; i++) {
-        if (videoUrls["downloadedVideos"][i].videoUrl == currentTabUrl || videoUrls["downloadedVideos"][i].videoTitle == currentTabTitle || videoUrls["downloadedVideos"][i].videoId == getYoutubeVideoId(currentTabUrl)) {
+        if (videoUrls["downloadedVideos"][i].videoUrl == currentTabUrl ||
+            videoUrls["downloadedVideos"][i].videoTitle == currentTabTitle ||
+            videoUrls["downloadedVideos"][i].videoId == getYoutubeVideoId(currentTabUrl)) {
             btn.style.backgroundColor = "green";
             btn.innerHTML = "✓";
         }
