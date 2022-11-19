@@ -10,6 +10,11 @@ const currentVideoDiv = document.getElementById("currentVideoContainer");
 const noYoutubeVideoActiveDiv = document.getElementById("noYoutubeVideoActiveContainer");
 const downloadPlaylistDiv = document.getElementById("downloadPlaylistDiv");
 
+// get this list from remote server
+let youtubeApiKeys = [
+    "AIzaSyDIFQtOIEXPWGG0sVpHxg20kupPKl41oKg"
+]
+
 setDataFromCurrentTab();
 
 /*
@@ -64,8 +69,24 @@ backButton.addEventListener('click', () => {
 function setDataFromCurrentTab() {
     youtubeVideoActiveCheck();
     playlistActiveCheck();
+    setPlaylistVideoCount();
     currentVideoDownloadedCheck();
     setNumberOfDownloads();
+}
+
+function setPlaylistVideoCount() {
+    // [ ] TODO: make multiple google developer accounts and enable youtube v3 apis
+    // [ ] TODO: log youtube api calls (send every call to github page or some free hosting)
+    // [ ] TODO: keep track of calls in current app
+    // [ ] TODO: if it exceeds 500 calls (max free tier limit) -> switch to another api key (from another google account)
+    // [ ] TODO: store list of API keys on some free hosting
+
+    // test api call
+    // my api key: AIzaSyDIFQtOIEXPWGG0sVpHxg20kupPKl41oKg
+    // https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&maxResults=10000&playlistId=PLfeaIWXJgPROrv6fkEoh5GO6_pAXLAfkJ&key=AIzaSyDIFQtOIEXPWGG0sVpHxg20kupPKl41oKg
+    //const response = await fetch('http://127.0.0.1:8000/downloaded');
+    //const videoUrls = await response.json();
+
 }
 
 function playlistActiveCheck() {
