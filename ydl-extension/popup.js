@@ -10,6 +10,7 @@ const currentVideoDiv = document.getElementById("currentVideoContainer");
 const noYoutubeVideoActiveDiv = document.getElementById("noYoutubeVideoActiveContainer");
 const downloadPlaylistDiv = document.getElementById("downloadPlaylistDiv");
 const playlistVideoCount = document.getElementById("playlistVideoCount");
+const downloadPlaylistBtn = document.getElementById("downloadPlaylistBtn");
 
 // get this list from remote server
 let youtubeApiKeys = [
@@ -53,6 +54,31 @@ btn.addEventListener('click', () => {
     });
 });
 
+downloadPlaylistBtn.addEventListener('click', () => {
+    let playlistId = "";
+
+    let queryOptions = { active: true, currentWindow: true };
+    // get url of active tab
+    tabs = chrome.tabs.query(queryOptions, tabs => {
+        //console.log(tabs[0].url);
+        _videoUrl = tabs[0].url;
+        _videoTitle = tabs[0].title.slice(0, -10);
+        playlistId = getPlaylistId(_videoUrl);
+
+        currentVideoTitle.innerHTML = _videoTitle;
+        _request = "http://127.0.0.1:8000/downloadPlaylist?playlistId=" + playlistId;
+        console.log(_request);
+        downloadPlaylistBtn.innerHTML = "Downloading...";
+        downloadPlaylistBtn.style.backgroundColor = "gray";
+        downloadPlaylistBtn.disabled = true;
+        fetch(_request).then(r => r.text()).then(result => {
+            downloadPlaylistBtn.style.backgroundColor = "green";
+            downloadPlaylistBtn.innerHTML = "Downloaded";
+            //setNumberOfDownloads();
+        });
+    });
+});
+
 settingsButton.addEventListener('click', () => {
     settingsDiv.style.display = "block";
     mainDiv.style.display = "none";
@@ -89,35 +115,11 @@ async function setPlaylistVideoCount(playlistId) {
     var youtubeApiCall =
         "https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&maxResults=10000&playlistId=" + playlistId + "&key=" + youtubeApiKeys[0];
 
-    isPlaylistCached(playlistId).then(isCached => {
-        if (isCached === true) {
-            console.log("THIS PLAYLIST ISSSSSSSS CACHED");
-        } else {
-            console.log("THIS PLAYLIST IS NOT CACHED");
-        }
-    });
-    /*
     const response = await fetch(youtubeApiCall);
     const playlist = await response.json();
-     */
 
-    //playlistVideoCount.innerHTML = playlist["pageInfo"]["totalResults"];
+    playlistVideoCount.innerHTML = playlist["pageInfo"]["totalResults"];
 }
-
-async function isPlaylistCached(playlistId) {
-    const response = await fetch("http://127.0.0.1:8000/cachedPlaylists?playlistId=" + playlistId);
-    const json_data = await response.json();
-    // if playlistId == one of playlist IDs from response -> return true ->else return false
-    for (i = 0; i < json_data["cachedPlaylists"].length; i++) {
-        console.log(playlistId + " -> " + json_data["cachedPlaylists"][i].playlistId);
-        if (playlistId === json_data["cachedPlaylists"][i].playlistId) {
-            return true;
-        }
-    }
-    return false;
-}
-
-
 
 // https://stackoverflow.com/questions/16868181/how-to-retrieve-a-youtube-playlist-id-using-regex-and-js
 function getPlaylistId(url) {

@@ -19,6 +19,21 @@
             "videoUrl": "https://www.youtube.com/watch?v=e-aaencD-dY",
             "videoTitle": "Tom Odell - Another Love (Official Short Film)",
             "videoId": "e-aaencD-dY"
+        },
+        {
+            "videoUrl": "https://www.youtube.com/watch?v=VAo065vRO4Q",
+            "videoTitle": "Dr. Peacock - Trip to Valhalla (Official Video)",
+            "videoId": "VAo065vRO4Q"
+        },
+        {
+            "videoUrl": "https://www.youtube.com/watch?v=F5tSoaJ93ac",
+            "videoTitle": "Imagine Dragons ",
+            "videoId": "F5tSoaJ93ac"
+        },
+        {
+            "videoUrl": "https://www.youtube.com/watch?v=q0hyYWKXF0Q",
+            "videoTitle": "TONES AND I - DANCE MONKEY (OFFICIAL VIDEO)",
+            "videoId": "q0hyYWKXF0Q"
         }
     ]
 }

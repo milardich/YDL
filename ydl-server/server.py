@@ -37,8 +37,6 @@ def processLink():
     VideoId = request.args.get('videoId')
     if link == "" or not link.__contains__("youtube.com"):
         return "You must enter a youtube link!"
-    if link.__contains__('list'):
-        downloadPlaylist(link)
     else:
         downloadSong(link)
     return jsonify({
@@ -103,38 +101,13 @@ def getDownloadedFiles():
     return jsonify(DownloadedFilesJsonData)
 
 
-@app.route('/cachedPlaylists', methods=['GET', 'POST'])
-def getCachedPlaylists():
-    f = open("cached_playlists.json", "r")
-    data = json.load(f)
-    f.close()
-    return jsonify(data)
-
-
-@app.route('/savePlaylistToCachedPlaylists', methods=['GET', 'POST'])
-def savePlaylistToCachedPlaylists():
+@app.route('/downloadPlaylist', methods=['GET', 'POST'])
+def downloadPlaylist():
     playlistId = request.args.get('playlistId')
-    f = open("cached_playlists.json", "r")
-    alreadyCached = False
-    data = json.load(f)
-    f.close()
-
-    playlistDictionary = {
-        "playlistId": playlistId
-    }
-
-    for object in data["cachedPlaylists"]:
-        if object == playlistDictionary:
-            alreadyCached = True
-
-    if not alreadyCached:
-        data["cachedPlaylists"].append(
-            playlistDictionary)
-        json_object = json.dumps(data, indent=4)
-        f = open("cached_playlists.json", "w")
-        f.write(json_object)
-        f.close()
-        print(str(json_object))
+    print("Downloading playlist...")
+    playlistUrl = "https://www.youtube.com/playlist?list=" + playlistId
+    subprocess.run(["yt-dlp", "-f", "ba", "-x", "--audio-format", "mp3",
+                   playlistUrl, "-o", DownloadLocation + "%(title)s.%(ext)s", "--no-mtime"])
 
 
 def downloadSong(song):
@@ -148,10 +121,6 @@ def downloadSong(song):
         "videoId": VideoId
     }
     saveToDownloadedJson(songDict)
-
-
-def downloadPlaylist(playlist):
-    print("Downloading playlist: " + playlist)
 
 
 def getDownloadsDirectory():
