@@ -14,6 +14,11 @@
             "videoUrl": "https://www.youtube.com/watch?v=MwpMEbgC7DA",
             "videoTitle": "Tom Odell - Another Love (Official Video)",
             "videoId": "MwpMEbgC7DA"
+        },
+        {
+            "videoUrl": "https://www.youtube.com/watch?v=e-aaencD-dY",
+            "videoTitle": "Tom Odell - Another Love (Official Short Film)",
+            "videoId": "e-aaencD-dY"
         }
     ]
 }

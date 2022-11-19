@@ -85,21 +85,39 @@ async function setPlaylistVideoCount(playlistId) {
     // test api call
     // my api key: AIzaSyDIFQtOIEXPWGG0sVpHxg20kupPKl41oKg
     // var ytApiCall = https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&maxResults=10000&playlistId=PLfeaIWXJgPROrv6fkEoh5GO6_pAXLAfkJ&key=AIzaSyDIFQtOIEXPWGG0sVpHxg20kupPKl41oKg
-    //const response = await fetch(ytApiCall);
-    //const playlistVideoUrls = await response.json();
 
-
-    // get playlist  url
-    // call api with that playlist id
-    // ? cache requet value of that playlist
-    // set number of songs
     var youtubeApiCall =
         "https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&maxResults=10000&playlistId=" + playlistId + "&key=" + youtubeApiKeys[0];
+
+    isPlaylistCached(playlistId).then(isCached => {
+        if (isCached === true) {
+            console.log("THIS PLAYLIST ISSSSSSSS CACHED");
+        } else {
+            console.log("THIS PLAYLIST IS NOT CACHED");
+        }
+    });
+    /*
     const response = await fetch(youtubeApiCall);
     const playlist = await response.json();
-    //alert(playlist["pageInfo"]["totalResults"]);
-    playlistVideoCount.innerHTML = playlist["pageInfo"]["totalResults"];
+     */
+
+    //playlistVideoCount.innerHTML = playlist["pageInfo"]["totalResults"];
 }
+
+async function isPlaylistCached(playlistId) {
+    const response = await fetch("http://127.0.0.1:8000/cachedPlaylists?playlistId=" + playlistId);
+    const json_data = await response.json();
+    // if playlistId == one of playlist IDs from response -> return true ->else return false
+    for (i = 0; i < json_data["cachedPlaylists"].length; i++) {
+        console.log(playlistId + " -> " + json_data["cachedPlaylists"][i].playlistId);
+        if (playlistId === json_data["cachedPlaylists"][i].playlistId) {
+            return true;
+        }
+    }
+    return false;
+}
+
+
 
 // https://stackoverflow.com/questions/16868181/how-to-retrieve-a-youtube-playlist-id-using-regex-and-js
 function getPlaylistId(url) {

@@ -103,6 +103,40 @@ def getDownloadedFiles():
     return jsonify(DownloadedFilesJsonData)
 
 
+@app.route('/cachedPlaylists', methods=['GET', 'POST'])
+def getCachedPlaylists():
+    f = open("cached_playlists.json", "r")
+    data = json.load(f)
+    f.close()
+    return jsonify(data)
+
+
+@app.route('/savePlaylistToCachedPlaylists', methods=['GET', 'POST'])
+def savePlaylistToCachedPlaylists():
+    playlistId = request.args.get('playlistId')
+    f = open("cached_playlists.json", "r")
+    alreadyCached = False
+    data = json.load(f)
+    f.close()
+
+    playlistDictionary = {
+        "playlistId": playlistId
+    }
+
+    for object in data["cachedPlaylists"]:
+        if object == playlistDictionary:
+            alreadyCached = True
+
+    if not alreadyCached:
+        data["cachedPlaylists"].append(
+            playlistDictionary)
+        json_object = json.dumps(data, indent=4)
+        f = open("cached_playlists.json", "w")
+        f.write(json_object)
+        f.close()
+        print(str(json_object))
+
+
 def downloadSong(song):
     global VideoTitle, VideoId
     print("Downloading: " + song)
