@@ -9,6 +9,7 @@ const numberOfDownloadsDiv = document.getElementById("numberOfDownloads");
 const currentVideoDiv = document.getElementById("currentVideoContainer");
 const noYoutubeVideoActiveDiv = document.getElementById("noYoutubeVideoActiveContainer");
 const downloadPlaylistDiv = document.getElementById("downloadPlaylistDiv");
+const playlistVideoCount = document.getElementById("playlistVideoCount");
 
 // get this list from remote server
 let youtubeApiKeys = [
@@ -69,24 +70,43 @@ backButton.addEventListener('click', () => {
 function setDataFromCurrentTab() {
     youtubeVideoActiveCheck();
     playlistActiveCheck();
-    setPlaylistVideoCount();
     currentVideoDownloadedCheck();
     setNumberOfDownloads();
 }
 
-function setPlaylistVideoCount() {
+async function setPlaylistVideoCount(playlistId) {
     // [ ] TODO: make multiple google developer accounts and enable youtube v3 apis
     // [ ] TODO: log youtube api calls (send every call to github page or some free hosting)
     // [ ] TODO: keep track of calls in current app
     // [ ] TODO: if it exceeds 500 calls (max free tier limit) -> switch to another api key (from another google account)
     // [ ] TODO: store list of API keys on some free hosting
+    // [ ] TODO: cache API calls for specific playlist (store in youtube_calls.json -> if current playlist not in that file -> send request)
 
     // test api call
     // my api key: AIzaSyDIFQtOIEXPWGG0sVpHxg20kupPKl41oKg
-    // https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&maxResults=10000&playlistId=PLfeaIWXJgPROrv6fkEoh5GO6_pAXLAfkJ&key=AIzaSyDIFQtOIEXPWGG0sVpHxg20kupPKl41oKg
-    //const response = await fetch('http://127.0.0.1:8000/downloaded');
-    //const videoUrls = await response.json();
+    // var ytApiCall = https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&maxResults=10000&playlistId=PLfeaIWXJgPROrv6fkEoh5GO6_pAXLAfkJ&key=AIzaSyDIFQtOIEXPWGG0sVpHxg20kupPKl41oKg
+    //const response = await fetch(ytApiCall);
+    //const playlistVideoUrls = await response.json();
 
+
+    // get playlist  url
+    // call api with that playlist id
+    // ? cache requet value of that playlist
+    // set number of songs
+    var youtubeApiCall =
+        "https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&maxResults=10000&playlistId=" + playlistId + "&key=" + youtubeApiKeys[0];
+    const response = await fetch(youtubeApiCall);
+    const playlist = await response.json();
+    //alert(playlist["pageInfo"]["totalResults"]);
+    playlistVideoCount.innerHTML = playlist["pageInfo"]["totalResults"];
+}
+
+// https://stackoverflow.com/questions/16868181/how-to-retrieve-a-youtube-playlist-id-using-regex-and-js
+function getPlaylistId(url) {
+    var VID_REGEX = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
+    var regPlaylist = /[?&]list=([^#\&\?]+)/;
+    var match = url.match(regPlaylist);
+    return match[1];
 }
 
 function playlistActiveCheck() {
@@ -95,6 +115,9 @@ function playlistActiveCheck() {
         tabUrl = tabs[0].url;
         if (tabUrl.includes("youtube") && tabUrl.includes("list")) {
             downloadPlaylistDiv.style.display = "block";
+            var playlistId = getPlaylistId(tabUrl);
+            console.log(playlistId);
+            setPlaylistVideoCount(playlistId);
         }
         else {
             downloadPlaylistDiv.style.display = "none";
