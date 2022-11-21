@@ -3,7 +3,7 @@ import subprocess
 import os
 import urllib.request
 import json
-#from mega import Mega
+from mega import Mega
 
 
 # TODO:
@@ -163,7 +163,11 @@ def loadSettings():
     if not os.path.exists("PortNumber.txt"):
         open("PortNumber.txt", "w").write("8000")
     if not os.path.exists("downloaded_files.json"):
-        open("downloaded_files.json", "w").write("")
+        open("downloaded_files.json", "w").write(
+            "{" +
+            "\"downloadedVideos\"" + ":" + "[]" +
+            "}"
+        )
 
     DownloadLocation = open("DownloadLocation.txt", "r").read()
     DownloadFormat = open("DownloadFormat.txt", "r").read()
