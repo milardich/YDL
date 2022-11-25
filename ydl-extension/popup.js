@@ -17,8 +17,9 @@ const autoDownloadSwitch = document.getElementById("autoDownloadSwitch");
 const changeDownloadLocationButton = document.getElementById("changeDownloadLocationButton");
 const saveDownloadLocationButton = document.getElementById("saveDownloadLocationButton");
 const cancelDownloadLocationChangeButton = document.getElementById("cancelDownloadLocationChangeButton");
+const resetSettingsButton = document.getElementById("resetSettingsButton");
 
-// get this list from remote server
+// get this list from remote location
 let youtubeApiKeys = [
     "AIzaSyDIFQtOIEXPWGG0sVpHxg20kupPKl41oKg"
 ]
@@ -27,13 +28,12 @@ setDataFromCurrentTab();
 
 /*
     TODO: 
-    [ ] Hide download button if not on youtube
-    [ ] If playlist: show download playlist button
-    [ ] Settings
-    [ ] If song from current tab downloaded: show checkmark
-    [ ] in setDataFromCurrentTab() check if current song already downloaded (isDownloaded() -> sends request to server and returns value)
-    [ ] request contains: link, isPlaylist
-    [ ] inject download button on youtube video
+    [X] Hide download button if not on youtube
+    [X] If playlist: show download playlist button
+    [X] Settings
+    [X] If song from current tab downloaded: show checkmark
+    [X] in setDataFromCurrentTab() check if current song already downloaded (isDownloaded() -> sends request to server and returns value)
+    [X] inject download button on youtube video
  */
 
 btn.addEventListener('click', () => {
@@ -90,6 +90,7 @@ settingsButton.addEventListener('click', () => {
     mainDiv.style.display = "none";
     settingsButton.style.display = "none";
     backButton.style.display = "block";
+    resetSettingsButton.style.display = "block";
 });
 
 backButton.addEventListener('click', () => {
@@ -97,7 +98,20 @@ backButton.addEventListener('click', () => {
     mainDiv.style.display = "block";
     settingsButton.style.display = "block";
     backButton.style.display = "none";
+    resetSettingsButton.style.display = "none";
 });
+
+resetSettingsButton.addEventListener('click', () => {
+    resetSettings();
+});
+
+async function resetSettings() {
+    const response = await fetch('http://127.0.0.1:8000/settings/resetSettings');
+    const settings = await response.json();
+    downloadLocationDiv.innerHTML = settings.DownloadLocation;
+    downloadFormatDiv.innerHTML = settings.DownloadFormat;
+    autoDownloadSwitch.checked = false;
+}
 
 changeDownloadLocationButton.addEventListener('click', () => {
     //alert("hehehj");
@@ -165,7 +179,6 @@ async function setPlaylistVideoCount(playlistId) {
     // [ ] TODO: keep track of calls in current app
     // [ ] TODO: if it exceeds 500 calls (max free tier limit) -> switch to another api key (from another google account)
     // [ ] TODO: store list of API keys on some free hosting
-    // [ ] TODO: cache API calls for specific playlist (store in youtube_calls.json -> if current playlist not in that file -> send request)
 
     // test api call
     // my api key: AIzaSyDIFQtOIEXPWGG0sVpHxg20kupPKl41oKg

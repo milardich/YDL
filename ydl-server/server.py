@@ -11,7 +11,7 @@ from mega import Mega
 # [X] update yt-dlp
 # [X] add ability to change download directory
 # [X] add ability to change download format (mp3, mp4, etc)
-# [ ] add ability to detect and download whole yt playlists
+# [X] add ability to detect and download whole yt playlists
 # [ ] auto downloading
 # [ ] read ffmpeg etc download links from a file
 # [X] config - download location, download file format, port number and ip, etc
@@ -66,6 +66,22 @@ def changeDownloadLocation():
     saveDownloadLocation()
     return jsonify({
         "DownloadLocation": DownloadLocation
+    })
+
+
+@app.route('/settings/resetSettings')
+def resetSettings():
+    global DownloadLocation, DownloadFormat, AutoDownload
+    DownloadLocation = getDownloadsDirectory()
+    DownloadFormat = "mp3"
+    AutoDownload = "false"
+    saveDownloadLocation()
+    saveDownloadFormat()
+    saveAutoDownload()
+    return jsonify({
+        "DownloadLocation": DownloadLocation,
+        "DownloadFormat": DownloadFormat,
+        "AutoDownload": AutoDownload
     })
 
 

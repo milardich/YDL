@@ -84,6 +84,20 @@
       margin-left: 10px;
     }
 
+    .resetSettingsButtonDiv {
+      position: absolute;
+      bottom: 0px;
+      right: 0px;
+      margin-bottom: 20px;
+      margin-right: 20px;
+    }
+
+    #resetSettingsButton {
+      display: none;
+      color: red;
+      font-size: 80%;
+    }
+
     .downloadPlaylistDiv {
       margin-top: 20px;
       text-align: center;
@@ -103,9 +117,11 @@
     }
 
     #changeDownloadLocationButton {
-      color: green;
+      color: red;
       text-decoration: none;
       font-size: 80%;
+      border: 1px solid red;
+      padding: 2px;
     }
 
     #editDownloadLocationInput {
@@ -119,6 +135,8 @@
       text-decoration: none;
       font-size: 80%;
       font-weight: bold;
+      border: 1px solid green;
+      padding: 2px;
     }
 
     #cancelDownloadLocationChangeButton {
@@ -127,6 +145,8 @@
       text-decoration: none;
       font-size: 80%;
       margin-left: 10px;
+      border: 1px solid red;
+      padding: 2px;
     }
   </style>
   <title>YDL</title>
@@ -192,7 +212,7 @@
         </div>
       </div>
     </div>
-
+    <div class="resetSettingsButtonDiv"><a href="#" id="resetSettingsButton">Reset settings</a></div>
     <div class="navButton"><a href="#" id="settingsButton">Settings</a></div>
     <div class="navButton"><a href="#" id="backButton">Back</a></div>
 
