@@ -101,6 +101,33 @@
       padding: 5px;
       display: none;
     }
+
+    #changeDownloadLocationButton {
+      color: green;
+      text-decoration: none;
+      font-size: 80%;
+    }
+
+    #editDownloadLocationInput {
+      display: none;
+      width: 160px;
+    }
+
+    #saveDownloadLocationButton {
+      display: none;
+      color: green;
+      text-decoration: none;
+      font-size: 80%;
+      font-weight: bold;
+    }
+
+    #cancelDownloadLocationChangeButton {
+      display: none;
+      color: red;
+      text-decoration: none;
+      font-size: 80%;
+      margin-left: 10px;
+    }
   </style>
   <title>YDL</title>
 </head>
@@ -139,8 +166,17 @@
     <div id="settingsDiv">
       <p class="panelHeader">YDL - Settings</p>
       <div class="setting">
-        <div class="smallHeader">Download location</div>
+        <div class="smallHeader">
+          Download location
+          <a href="#" id="changeDownloadLocationButton">Edit</a>
+        </div>
         <div class="settingTextValue" id="downloadLocationDiv">D:\Test\Downloads</div>
+        <div id="editDownloadLocationDiv">
+          <input type="text" id="editDownloadLocationInput">
+          <a href="#" id="saveDownloadLocationButton">Save</a>
+          <a href="#" id="cancelDownloadLocationChangeButton">Cancel</a>
+        </div>
+
       </div>
       <div class="setting">
         <div class="smallHeader">Format</div>

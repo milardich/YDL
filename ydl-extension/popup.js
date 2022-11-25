@@ -14,6 +14,9 @@ const downloadPlaylistBtn = document.getElementById("downloadPlaylistBtn");
 const downloadLocationDiv = document.getElementById("downloadLocationDiv");
 const downloadFormatDiv = document.getElementById("downloadFormatDiv");
 const autoDownloadSwitch = document.getElementById("autoDownloadSwitch");
+const changeDownloadLocationButton = document.getElementById("changeDownloadLocationButton");
+const saveDownloadLocationButton = document.getElementById("saveDownloadLocationButton");
+const cancelDownloadLocationChangeButton = document.getElementById("cancelDownloadLocationChangeButton");
 
 // get this list from remote server
 let youtubeApiKeys = [
@@ -94,6 +97,36 @@ backButton.addEventListener('click', () => {
     mainDiv.style.display = "block";
     settingsButton.style.display = "block";
     backButton.style.display = "none";
+});
+
+changeDownloadLocationButton.addEventListener('click', () => {
+    //alert("hehehj");
+    changeDownloadLocationButton.style.display = "none";
+    editDownloadLocationInput.style.display = "inline";
+    saveDownloadLocationButton.style.display = "inline";
+    cancelDownloadLocationChangeButton.style.display = "inline";
+    editDownloadLocationInput.value = downloadLocationDiv.innerHTML;
+    downloadLocationDiv.style.display = "none";
+});
+
+cancelDownloadLocationChangeButton.addEventListener('click', () => {
+    changeDownloadLocationButton.style.display = "inline";
+    editDownloadLocationInput.style.display = "none";
+    saveDownloadLocationButton.style.display = "none";
+    cancelDownloadLocationChangeButton.style.display = "none";
+    downloadLocationDiv.style.display = "block";
+});
+
+saveDownloadLocationButton.addEventListener('click', () => {
+    var newLocation = editDownloadLocationInput.value;
+    //alert(newLocation);
+    fetch('http://127.0.0.1:8000/settings/changeDownloadLocation?value=' + newLocation);
+    changeDownloadLocationButton.style.display = "inline";
+    editDownloadLocationInput.style.display = "none";
+    saveDownloadLocationButton.style.display = "none";
+    cancelDownloadLocationChangeButton.style.display = "none";
+    downloadLocationDiv.style.display = "block";
+    downloadLocationDiv.innerText = newLocation;
 });
 
 function setDataFromCurrentTab() {
