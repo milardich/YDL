@@ -12,6 +12,8 @@ const downloadPlaylistDiv = document.getElementById("downloadPlaylistDiv");
 const playlistVideoCount = document.getElementById("playlistVideoCount");
 const downloadPlaylistBtn = document.getElementById("downloadPlaylistBtn");
 const downloadLocationDiv = document.getElementById("downloadLocationDiv");
+const downloadFormatDiv = document.getElementById("downloadFormatDiv");
+const autoDownloadSwitch = document.getElementById("autoDownloadSwitch");
 
 // get this list from remote server
 let youtubeApiKeys = [
@@ -102,10 +104,26 @@ function setDataFromCurrentTab() {
     getServerSettings();
 }
 
+autoDownloadSwitch.addEventListener('click', () => {
+    var value = "";
+    if (autoDownloadSwitch.checked) {
+        value = "true";
+    } else {
+        value = "false";
+    }
+    fetch('http://127.0.0.1:8000/settings/changeAutoDownload?value=' + value);
+});
+
 async function getServerSettings() {
     const response = await fetch('http://127.0.0.1:8000/settings');
     const settings = await response.json();
     downloadLocationDiv.innerHTML = settings.DownloadLocation;
+    downloadFormatDiv.innerHTML = settings.DownloadFormat;
+    if (settings.AutoDownload == "true") {
+        autoDownloadSwitch.checked = true;
+    } else {
+        autoDownloadSwitch.checked = false;
+    }
 }
 
 async function setPlaylistVideoCount(playlistId) {
