@@ -11,6 +11,7 @@ const noYoutubeVideoActiveDiv = document.getElementById("noYoutubeVideoActiveCon
 const downloadPlaylistDiv = document.getElementById("downloadPlaylistDiv");
 const playlistVideoCount = document.getElementById("playlistVideoCount");
 const downloadPlaylistBtn = document.getElementById("downloadPlaylistBtn");
+const downloadLocationDiv = document.getElementById("downloadLocationDiv");
 
 // get this list from remote server
 let youtubeApiKeys = [
@@ -98,6 +99,13 @@ function setDataFromCurrentTab() {
     playlistActiveCheck();
     currentVideoDownloadedCheck();
     setNumberOfDownloads();
+    getServerSettings();
+}
+
+async function getServerSettings() {
+    const response = await fetch('http://127.0.0.1:8000/settings');
+    const settings = await response.json();
+    downloadLocationDiv.innerHTML = settings.DownloadLocation;
 }
 
 async function setPlaylistVideoCount(playlistId) {
